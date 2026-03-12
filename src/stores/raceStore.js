@@ -60,7 +60,7 @@ const mutations = {
     sortedRacers.forEach((sortedRacer, index) => {
       const originalRacer = race.racers.find((r) => r.id === sortedRacer.id);
       if (originalRacer) {
-        originalRacer.score = index + 1;
+        originalRacer.place = index + 1;
       }
     });
   },
@@ -82,9 +82,9 @@ const actions = {
 
       const raceRacers = selectedRacers.map((racer, idx) => ({
         id: racer.id,
-        position: idx + 1,
+        lane: idx + 1,
         progress: 0,
-        score: 0,
+        place: 0,
         finishOrder: null,
       }));
 
@@ -189,8 +189,8 @@ const getters = {
   },
   getCompletedRaces: (state, getters) => {
     return getters.getRaces.filter((race) => {
-      // A race is completed when all racers have a score > 0
-      return race.racers.every((racer) => racer.score > 0);
+      // A race is completed when all racers have a place > 0
+      return race.racers.every((racer) => racer.place > 0);
     });
   },
   getRaceResults: (state, getters) => {
@@ -200,13 +200,26 @@ const getters = {
     );
 
     return startedRaces.map((race) => {
-      const isRaceCompleted = race.racers.every((racer) => racer.score > 0);
+      const isRaceCompleted = race.racers.every((racer) => racer.place > 0);
       const sortedRacers = [...race.racers].sort((a, b) => {
         if (isRaceCompleted) {
-          // After race completes: sort by score (ascending - winner first)
-          return a.score - b.score;
+          // After race completes: sort by place (ascending - winner first)
+          return a.place - b.place;
         } else {
-          // During race: sort by progress (descending - who is ahead)
+          // During race: prioritize finished racers, then sort by progress
+          const aFinished = a.finishOrder !== null;
+          const bFinished = b.finishOrder !== null;
+
+          // Finished racers always come first
+          if (aFinished && !bFinished) return -1;
+          if (!aFinished && bFinished) return 1;
+
+          // Both finished: sort by finishOrder (ascending - winner first)
+          if (aFinished && bFinished) {
+            return a.finishOrder - b.finishOrder;
+          }
+
+          // Both still racing: sort by progress (descending - who is ahead)
           return b.progress - a.progress;
         }
       });

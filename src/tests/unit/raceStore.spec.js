@@ -100,7 +100,7 @@ describe("raceStore", () => {
     expect(updated.progress).toBe(50);
   });
 
-  it("sets correct score (finish order) when racers finish", () => {
+  it("sets correct place (finish order) when racers finish", () => {
     store.dispatch("raceStore/initRacers");
     store.dispatch("raceStore/initRaces");
 
@@ -113,11 +113,11 @@ describe("raceStore", () => {
 
     store.commit("raceStore/FINALIZE_RACE", race.id);
 
-    const scores = race.racers.map((r) => r.score);
+    const places = race.racers.map((r) => r.place);
 
-    expect(new Set(scores).size).toBe(race.racers.length);
-    expect(Math.min(...scores)).toBe(1);
-    expect(Math.max(...scores)).toBe(race.racers.length);
+    expect(new Set(places).size).toBe(race.racers.length);
+    expect(Math.min(...places)).toBe(1);
+    expect(Math.max(...places)).toBe(race.racers.length);
   });
 
   it("sets racer finish order correctly", () => {

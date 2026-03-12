@@ -18,9 +18,9 @@
 import BaseTable from "./base/BaseTable.vue";
 
 const COLUMNS = [
-  { key: "position", label: "Position" },
+  { key: "lane", label: "Lane" },
   { key: "name", label: "Name" },
-  { key: "score", label: "Score" },
+  { key: "place", label: "Place" },
   { key: "color", label: "Color" },
 ];
 

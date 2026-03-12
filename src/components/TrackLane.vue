@@ -1,7 +1,7 @@
 <template>
   <div class="track-lane">
     <div class="track-lane__position" :style="positionStyle">
-      {{ racer.position }}
+      {{ racer.lane }}
     </div>
 
     <div class="track-lane__track">

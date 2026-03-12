@@ -23,9 +23,9 @@ describe("raceSimulationService", () => {
     distance,
     racers: racers.map((r) => ({
       id: r.id,
-      position: r.id,
+      lane: r.id,
       progress: 0,
-      score: 0,
+      place: 0,
       finishOrder: null,
     })),
   });
