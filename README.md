@@ -2,7 +2,7 @@
 
 ## Demo
 
-https://jibcore.github.io/racing-demo/
+https://jibcore.github.io/hrace/
 
 ## Installation
 
